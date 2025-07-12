@@ -1,0 +1,5 @@
+playwright
+pandas
+pyarrow
+beautifulsoup4
+requests
