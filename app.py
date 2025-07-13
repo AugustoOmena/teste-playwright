@@ -158,6 +158,9 @@ def save_to_parquet(dados, colunas, filename, data_formatada):
         df['Dia'] = data_formatada
         
         filepath = os.path.join('data', filename)
+
+        print(f"DEBUG: Tentando salvar o arquivo em: {os.path.abspath(filepath)}")
+        
         df.to_parquet(filepath, engine='pyarrow')
         
         print(f"Dados salvos em: {filepath}")
