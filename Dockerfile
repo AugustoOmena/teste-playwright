@@ -1,56 +1,44 @@
-# =========================================================================
-# ESTÁGIO 1: BUILDER
-# Usando a imagem correta: amazonlinux:2023, que corresponde à base do Lambda
-# =========================================================================
-FROM public.ecr.aws/amazonlinux/amazonlinux:2023 AS builder
+FROM public.ecr.aws/lambda/python:3.11
 
-# 1. Instala as dependências de sistema e de compilação usando DNF
-#    No AL2023, os comandos são mais diretos.
-RUN dnf install -y \
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /var/task
+
+# dependências de sistema estritamente necessárias para o Playwright.
+RUN yum install -y \
     alsa-lib \
+    atk \
     at-spi2-atk \
     cups-libs \
+    dbus-libs \
+    expat \
+    fontconfig \
+    gtk3 \
+    libX11 \
+    libX11-xcb \
     libXcomposite \
+    libXcursor \
     libXdamage \
+    libXext \
+    libXfixes \
+    libXi \
     libXrandr \
+    libXrender \
     libXtst \
     nss \
     pango \
-    # Ferramentas de build
-    python3.11 \
-    python3.11-pip \
-    python3.11-devel \
-    gcc \
-    gcc-c++ \
-    && dnf clean all
+    && yum clean all
 
-# 2. Cria o virtual environment
-RUN python3.11 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# 3. Instala as dependências Python
+# Copia o arquivo de dependências Python para o contêiner
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
+# Instala as dependências Python a partir do requirements.txt com versões fixadas.
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
-# =========================================================================
-# ESTÁGIO 2: FINAL
-# Imagem do Lambda (baseada em AL2023)
-# =========================================================================
-FROM public.ecr.aws/lambda/python:3.11
-
-WORKDIR /var/task
-
-# Copia os artefatos do builder (que agora é 100% compatível)
-COPY --from=builder /opt/venv /var/task
-COPY --from=builder /usr/lib64 /var/task/lib/
-
-# Aponta para o nosso novo diretório de bibliotecas
-ENV LD_LIBRARY_PATH=/var/task/lib:$LD_LIBRARY_PATH
+# Instala o browser Chromium para o Playwright
+RUN playwright install chromium
 
 # Copia o código da sua aplicação
 COPY app.py .
-COPY data/ ./data/
 
-# Define o handler da sua função Lambda
-CMD [ "app.handler" ]
+# Define o comando padrão para o Lambda
+CMD [ "app.lambda_handler" ]

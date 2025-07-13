@@ -2,10 +2,10 @@ services:
   b3-scraper:
     build: .
     container_name: b3-scraper
-    # Mapeia a pasta 'data' local para a pasta 'data' dentro do diretório de trabalho do contêiner
+
     volumes:
       - ./data:/var/task/data
     environment:
-      - PYTHONUNBUFFERED=1 # Garante que os prints apareçam no log em tempo real
-    # Este comando sobrescreve o CMD do Dockerfile, permitindo rodar o app como um script
-    command: ["python", "app.py"]
+      - PYTHONUNBUFFERED=1
+
+    entrypoint: ["python", "app.py"]
