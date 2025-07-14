@@ -1,20 +1,18 @@
-📈 Web Scrapping de Dados da B3 com Docker e AWS Lambda
+# 📈 Web Scrapping de Dados da B3 com Docker e AWS Lambda
 Este projeto utiliza uma imagem Docker para realizar o scrapping de dados da B3, processá-los e armazená-los. A execução do scrapping é orquestrada através de uma função AWS Lambda configurada com uma imagem de contêiner.
 
-🚀 Requisitos
+## 🚀 Requisitos
 Certifique-se de ter os seguintes pré-requisitos instalados e configurados:
 
-Docker: Para construir e gerenciar as imagens do contêiner.
-
-Conta no Console AWS: Para implantar a solução.
-
-AWS CLI: Ferramenta de linha de comando para interagir com os serviços da AWS.
+- Docker: Para construir e gerenciar as imagens do contêiner.
+- Conta no Console AWS: Para implantar a solução.
+- AWS CLI: Ferramenta de linha de comando para interagir com os serviços da AWS.
 
 Se você ainda não tem o AWS CLI instalado, siga as instruções em: Instalar AWS CLI.
 
 
 
-📝 Como Usar
+## 📝 Como Usar
 Siga os passos abaixo para configurar e executar seu projeto de scrapping.
 
 1. Configurar Credenciais AWS CLI
@@ -79,17 +77,17 @@ Após a finalização do push, você poderá visualizar sua imagem no console da
 
 
 4. Criar e Configurar Função AWS Lambda
-Crie uma nova Função Lambda:
+- Crie uma nova Função Lambda:
 
-No console AWS, navegue até Lambda e clique em "Create function".
+- No console AWS, navegue até Lambda e clique em "Create function".
 
-Selecione a opção "Container Image" e adicione a referência à sua imagem recém-enviada.
+- Selecione a opção "Container Image" e adicione a referência à sua imagem recém-enviada.
 
-Em "Architecture", selecione a opção x86_64.
+- Em "Architecture", selecione a opção x86_64.
 
-Configure sua Execution Role (Função de Execução): Certifique-se de que a role tenha permissões para acessar o ECR e qualquer outro serviço que sua Lambda precise (ex: S3 para salvar os dados).
+- Configure sua Execution Role (Função de Execução): Certifique-se de que a role tenha permissões para acessar o ECR e qualquer outro serviço que sua Lambda precise (ex: S3 para salvar os dados).
 
-Clique em "Create Function".
+- Clique em "Create Function".
 <img width="1644" height="388" alt="image" src="https://github.com/user-attachments/assets/d1312c31-3ef1-4cff-92ce-91e407c4bace" />
 
 
@@ -97,9 +95,10 @@ Clique em "Create Function".
 
 
 5. Adicionar Variáveis de Ambiente
-Após criar a função Lambda, navegue até a aba "Configuration" e selecione "Environment variables".
+   
+- Após criar a função Lambda, navegue até a aba "Configuration" e selecione "Environment variables".
 
-Adicione uma nova variável de ambiente com a chave S3_BUCKET_NAME e o valor sendo o nome do seu bucket S3 onde os dados serão armazenados.
+- Adicione uma nova variável de ambiente com a chave S3_BUCKET_NAME e o valor sendo o nome do seu bucket S3 onde os dados serão armazenados.
 *
    <img width="1354" height="636" alt="image" src="https://github.com/user-attachments/assets/81117e57-4ecf-4b61-9710-2237c939ddd0" />
 
@@ -107,24 +106,28 @@ Adicione uma nova variável de ambiente com a chave S3_BUCKET_NAME e o valor sen
 
 
 6. Testar a Função Lambda
-Na aba "Test" da sua função Lambda:
 
-Crie um novo Test event. Um evento vazio pode ser suficiente se sua função não depender de entrada.
+- Na aba "Test" da sua função Lambda:
 
-Clique em "Save".
+- Crie um novo Test event. Um evento vazio pode ser suficiente se sua função não depender de entrada.
+
+- Clique em "Save".
 
 Em seguida, clique em "Test" para executar a função.
+
 <img width="1311" height="802" alt="image" src="https://github.com/user-attachments/assets/8020cf2c-bfc2-4ca2-8524-931630faaa17" />
 
-✔️ Resultado da Execução
+## ✔️ Resultado da Execução
+
 Após a execução bem-sucedida da sua função Lambda, você deverá ver os logs de sucesso e a confirmação de que o scrapping foi realizado e os dados foram processados.
 
 <img width="1312" height="581" alt="image" src="https://github.com/user-attachments/assets/cab74eb9-d955-4aa5-b422-2f9c6030c630" />
 
 <img width="1382" height="262" alt="image" src="https://github.com/user-attachments/assets/a43a99d0-64ef-495c-9e47-34d709b0d85f" />
 
-📊 Exibição no AWS Glue Job
+## 📊 Exibição no AWS Glue Job
 Se você estiver integrando esses dados com o AWS Glue, o resultado processado pode ser visualizado em seu Glue Job ou catálogos de dados.
+
 <img width="1497" height="839" alt="image" src="https://github.com/user-attachments/assets/a33f0102-1a21-4346-bf8c-c5f2c1386451" />
 
 
